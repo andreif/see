@@ -175,7 +175,15 @@ def see(obj=_LOCALS, pattern=None, r=None):
     if r is not None:
         actions = regex_filter(actions, r)
 
-    return _SeeOutput(actions)
+    actions_sys = [a for a in filter(lambda a: not a.startswith('.'), actions)]
+    actions_err = [a for a in filter(lambda a: a.endswith('?'), actions)]
+    actions_met = [a for a in filter(lambda a: re.search(r'^\..+\)$', a), actions)]
+    actions_atr = [a for a in filter(lambda a: re.search(r'^\..+[^?)]$', a), actions)]
+    acts = [repr(_SeeOutput(a)) for a in (actions_sys, actions_met, actions_atr, actions_err) if a]
+    
+    # return _SeeOutput(actions)
+    return "\n%s  %s\n%s" % (repr(obj), obj.__class__, '\n\n'.join(acts))
+    # return '{:-<120}\n{:}'.format(repr(obj), '\n\n'.join(acts))
 
 
 PY_300 = sys.version_info >= (3, 0)
