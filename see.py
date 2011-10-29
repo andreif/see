@@ -88,10 +88,10 @@ class _SeeOutput(tuple):
     def __repr__(self):
         lens = sorted(map(len, self)) or [0]
         most = lens[int(len(lens)*0.9)]
-        if lens[-1] + 6 > most:
-            max_len = most
-        else:
-            max_len = lens[-1]
+        # if lens[-1] + 6 > most:
+        #     max_len = most
+        # else:
+        max_len = lens[-1]
 
         def justify(i):
             if len(i) <= max_len + 2:
@@ -104,7 +104,8 @@ class _SeeOutput(tuple):
             indent = ' ' * len(sys.ps1)
         else:
             indent = '    '
-        return textwrap.fill(''.join(padded), 78,
+        # return textwrap.fill(''.join(padded), 78,
+        return textwrap.fill(''.join(padded), 100,
                              initial_indent=indent,
                              subsequent_indent=indent)
 
